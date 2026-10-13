@@ -450,7 +450,7 @@ def main(config):
 
     eval_scheduler = tools.Every(config.eval_every_collection_episodes)
     collected_episodes = 0
-    eval_tasks = [sample_task() for _ in range(config.eval_episode_num)]
+    eval_tasks = tools.make_eval_tasks(sample_task, config.eval_episode_num, config.task)
     training_times = []
     best_return = -np.inf
     eval_policy = functools.partial(agent, training=False)
@@ -505,7 +505,7 @@ def main(config):
     _, _, test_return = tools.simulate(
         eval_policy,
         eval_envs,
-        [sample_task() for _ in range(config.test_episode_num)],
+        tools.make_eval_tasks(sample_task, config.test_episode_num, config.task),
         eval_eps,
         config.evaldir,
         logger,
@@ -549,4 +549,6 @@ if __name__ == "__main__":
     for key, value in sorted(defaults.items(), key=lambda x: x[0]):
         arg_type = tools.args_type(value)
         parser.add_argument(f"--{key}", type=arg_type, default=arg_type(value))
-    main(parser.parse_args(remaining))
+    print(parser.parse_args(remaining))
+
+    # main(parser.parse_args(remaining))

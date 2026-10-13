@@ -85,6 +85,16 @@ class Logger:
         return steps / duration
 
 
+def make_eval_tasks(sample_task, num_tasks, task_name):
+    """Use seed-independent, equally spaced goals for Humanoid-Dir evaluation."""
+    if task_name.startswith("humanoiddir_"):
+        return [
+            {"direction": float(angle)}
+            for angle in np.linspace(0.0, 2.0 * np.pi, num_tasks, endpoint=False)
+        ]
+    return [sample_task() for _ in range(num_tasks)]
+
+
 def simulate(agent, envs, tasks, cache, directory, logger, is_eval=False, limit=None, state2image=None,
              num_meta_episodes=1):
     is_meta = num_meta_episodes > 1

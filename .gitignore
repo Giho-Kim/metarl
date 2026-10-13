@@ -135,3 +135,18 @@ dmypy.json
 
 # VScode
 .vscode/*
+
+# Local editor settings and experiment outputs
+.idea/
+.claude/
+.agents/
+.codex/
+.aws/
+artifacts/
+humanoid/
+wandb/
+results/
+sanity/results/
+MUJOCO_LOG.TXT
+/*.mp4
+/creme.zip
